@@ -73,4 +73,15 @@ export class AccountingServiceMongoImpl implements AccountingService {
     async getFiredEmployees(): Promise<SavedFiredEmployee[]> {
         return await FiredEmployeeModel.find().lean();
     }
+
+    async getFiredBetween(startDate: string, endDate: string): Promise<SavedFiredEmployee[]> {
+        const result = await FiredEmployeeModel.find({
+            fireDate: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        });
+
+        return result as SavedFiredEmployee[];
+    }
 }

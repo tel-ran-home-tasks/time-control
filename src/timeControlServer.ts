@@ -2,7 +2,7 @@ import express from 'express';
 import {configuration} from "./app-config/appConfig.js";
 import * as mongoose from "mongoose";
 import {accountRouter} from "./routers/accountRouter.js";
-import {validateBody} from "./middleware/validation.js";
+import {validate} from "./middleware/validation.js";
 import {joiSchemas} from "./utils/joiSchemas.js";
 import {errorHandler} from "./errorHandler/errorHandler.js";
 

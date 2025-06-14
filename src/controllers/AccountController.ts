@@ -42,4 +42,10 @@ export class AccountController {
         return await this.service.setRole(id, newRole);
     }
 
+    async getFiredBetween(start: string, end: string) {
+        const startDate = new Date(`${start}T00:00:00.000Z`);
+        const endDate = new Date(`${end}T23:59:59.999Z`);
+        return await this.service.getFiredBetween(startDate.toISOString(), endDate.toISOString());
+    }
+
 }

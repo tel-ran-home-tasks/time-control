@@ -2,8 +2,9 @@ import express, {Request, Response} from "express";
 import {EmployeeDto} from "../model/Employee.js";
 import asyncHandler from "express-async-handler";
 import {AccountController} from "../controllers/AccountController.js";
-import {validateBody} from "../middleware/validation.js";
-import {EmployeeDtoSchema, joiSchemas} from "../utils/joiSchemas.js";
+import {validate} from "../middleware/validation.js";
+import {joiSchemas} from "../utils/joiSchemas.js";
+
 
 export const accountRouter = express.Router();
 const controller = new AccountController();
@@ -28,7 +29,7 @@ accountRouter.delete('/:id', asyncHandler(async (req: Request, res: Response) =>
     res.json(result);
 }));
 
-accountRouter.put('/:id', validateBody(joiSchemas), asyncHandler(async (req: Request, res: Response) => {
+accountRouter.put('/:id', validate('body',joiSchemas), asyncHandler(async (req: Request, res: Response) => {
     const id = req.params.id;
     const body = req.body as EmployeeDto;
     const result = await controller.updateEmployee(id, body);
@@ -49,5 +50,12 @@ accountRouter.patch('/:id/role', asyncHandler(async (req: Request, res: Response
 
 accountRouter.get('/:id', asyncHandler(async (req: Request, res: Response) => {
     const result = await controller.getEmployeeById(req.params.id);
+    res.json(result);
+
+}));
+
+accountRouter.get('/fired/range', validate('query',joiSchemas), asyncHandler(async (req: Request, res: Response) => {
+    const { start, end } = req.query;
+    const result = await controller.getFiredBetween(start as string, end as string);
     res.json(result);
 }));
