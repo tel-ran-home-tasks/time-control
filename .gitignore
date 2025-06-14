@@ -1,0 +1,21 @@
+# node modules
+node_modules/
+
+# production build
+build/
+dist/
+
+# logs
+logs/
+*.log
+
+# system files
+.DS_Store
+Thumbs.db
+
+# env variables
+.env
+
+# IDE settings
+.idea/
+.vscode/

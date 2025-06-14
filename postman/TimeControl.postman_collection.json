@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "8aebe415-ffe4-4df9-adb6-1ec62b17386f",
+		"name": "TimeControl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43802838",
+		"_collection_link": "https://victor-5810979.postman.co/workspace/Java-29~36d4752c-aabf-4a30-b7b6-84891e0dffb1/collection/43802838-8aebe415-ffe4-4df9-adb6-1ec62b17386f?action=share&source=collection_link&creator=43802838"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "AddEnployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Vasya\",\n  \"lastName\": \"Pupkin\",\n  \"password\": \"123456789\",\n  \"id\": \"100000000\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllEmployees",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Vasya\",\n  \"lastName\": \"Pupkin\",\n  \"password\": \"123456789\",\n  \"id\": \"100000000\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateAccount",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Nikola\",\n  \"lastName\": \"Pupkin\",\n  \"password\": \"123456789\",\n  \"id\":\"100000000\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/100000000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"100000000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAccount",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Vasya\",\n  \"lastName\": \"Pupkin\",\n  \"password\": \"123456789\",\n  \"id\": \"100000000\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/100000000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"100000000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangePassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"newPassword\":\"987654321\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/100000000/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"100000000",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetRole",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"newRole\":\"manager\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/100000000/role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"100000000",
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"newRole\":\"manager\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/100000000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"100000000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllFired",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Vasya\",\n  \"lastName\": \"Pupkin\",\n  \"password\": \"123456789\",\n  \"id\": \"100000000\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/fired",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"fired"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

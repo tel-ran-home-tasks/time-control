@@ -1,0 +1,24 @@
+import Joi from 'joi'
+import {Role} from "./timeControlTypes.js";
+
+export const EmployeeDtoSchema = Joi.object({
+    firstName: Joi.string().min(3).required(),
+    lastName: Joi.string().min(3).required(),
+    password: Joi.string().min(8).required(),
+    id: Joi.string().length(9).required(),
+})
+
+export const RoleSchema = Joi.object({
+    newRole: Joi.string().valid(...Object.values(Role)).required()
+});
+
+export const PasswordSchema = Joi.object({
+    newPassword: Joi.string().min(8).required()
+});
+
+export const joiSchemas = {
+    'POST/accounts': EmployeeDtoSchema,
+    "PUT/accounts/:id": EmployeeDtoSchema,
+    "PATCH/accounts/:id/password": PasswordSchema,
+    "PATCH/accounts/:id/role": RoleSchema,
+}
