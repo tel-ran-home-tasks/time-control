@@ -230,6 +230,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetFiredFromTo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/accounts/fired/range?start=2025-06-01&end=2025-06-14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"fired",
+								"range"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2025-06-01"
+								},
+								{
+									"key": "end",
+									"value": "2025-06-14"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
