@@ -47,5 +47,4 @@ export class AccountController {
         const endDate = new Date(`${end}T23:59:59.999Z`);
         return await this.service.getFiredBetween(startDate.toISOString(), endDate.toISOString());
     }
-
 }
