@@ -18,7 +18,7 @@ export const FiredEmployeeMongoSchema = new mongoose.Schema({
     lastName: {type: String, required: true},
     id: {type: String, required: true},
     table_num: {type: String, required: true},
-    fireDate: {type: String, required: true}
+    fireDate: {type: Date, required: true}
 }, {versionKey: false})
 
 export const FiredEmployeeModel =

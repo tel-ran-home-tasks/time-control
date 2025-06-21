@@ -261,6 +261,178 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "victort",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234567",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"100000005\",\n  \"password\": \"123456789\"\n  \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/accounts/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"accounts",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shifts",
+			"item": [
+				{
+					"name": "StartShift",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6IltcImNyZXdcIl0iLCJpYXQiOjE3NTA1MTUyMDYsImV4cCI6MTc1MDUxNTI2Niwic3ViIjoiMTAwMDAwMDA1In0.dcdv52_xdUOd2qp4RtKVMIQTGx9yIA3fTvlnR6caIgY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/shifts/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"shifts",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StartBreak15min",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6IltcImNyZXdcIl0iLCJpYXQiOjE3NTA1MTYzNzUsImV4cCI6MTc1MDUxNjQzNSwic3ViIjoiMTAwMDAwMDA1In0.bk10ufAmbIKg-Os6Q45Tdh6V1sglLKfFUEdHWMi0Gg0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/shifts/break/start/15m",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"shifts",
+								"break",
+								"start",
+								"15m"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EndBreak",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6IltcImNyZXdcIl0iLCJpYXQiOjE3NTA1MTY1MDMsImV4cCI6MTc1MDUxNjU2Mywic3ViIjoiMTAwMDAwMDA1In0.Xoz0E4wxJwOCiQ1fAr467vSirwXAPvyU2gWVSoqLdVE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/shifts/break/end",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"shifts",
+								"break",
+								"end"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EndShift",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6IltcImNyZXdcIl0iLCJpYXQiOjE3NTA1MTg2NjgsImV4cCI6MTc1MDUxODcyOCwic3ViIjoiMTAwMDAwMDA1In0.kdOpxW9GKaiFB7ScryskCx0B6UdEfh9plteSgktTAPg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/shifts/end",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"shifts",
+								"end"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

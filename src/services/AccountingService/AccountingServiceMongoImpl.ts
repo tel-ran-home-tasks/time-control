@@ -1,10 +1,27 @@
 import {AccountingService} from "./AccountingService.js";
 import {Employee, EmployeeDto, SavedFiredEmployee} from "../../model/Employee.js";
-import {checkFiredEmployees, convertEmployeeToFiredEmployeeDto, getError} from "../../utils/tools.js";
+import {checkFiredEmployees, convertEmployeeToFiredEmployeeDto, getError, getJWT} from "../../utils/tools.js";
 import {EmployeeModel, FiredEmployeeModel} from "../../model/EmployeeMongo.js";
 import bcrypt from "bcrypt";
+import {LoginData} from "../../utils/timeControlTypes.js";
 
 export class AccountingServiceMongoImpl implements AccountingService {
+    async login(body: LoginData): Promise<string> {
+        if (!body || !body.id || !body.password) {
+            throw new Error(getError(400, "Missing login credentials"));
+        }
+        const profile = await this.getEmployeeById(body.id);
+        if (!profile) {
+            throw new Error(getError(404, `Employee with id ${body.id} not found`));
+        }
+        const passwordMatch = await bcrypt.compare(body.password, profile.hash);
+        if (!passwordMatch) {
+            throw new Error(getError(401, "Incorrect credentials"));
+        }
+        return getJWT(body.id, profile.roles);
+    }
+
+
     async changePassword(empId: string, newPassword: string): Promise<void> {
         const hashed = await bcrypt.hash(newPassword, 10);
         const result = await EmployeeModel.updateOne({id: empId}, {$set: {password: hashed}});
@@ -23,13 +40,11 @@ export class AccountingServiceMongoImpl implements AccountingService {
         const firedDoc = new FiredEmployeeModel(firedDto);
         await firedDoc.save();
         return firedDto;
-
     }
 
     async getAllEmployees(): Promise<SavedFiredEmployee[]> {
         const result = await EmployeeModel.find<Employee>({})
         const employees = result.map(emp => convertEmployeeToFiredEmployeeDto(emp))
-
         return Promise.resolve(employees);
     }
 
@@ -74,14 +89,13 @@ export class AccountingServiceMongoImpl implements AccountingService {
         return await FiredEmployeeModel.find().lean();
     }
 
-    async getFiredBetween(startDate: string, endDate: string): Promise<SavedFiredEmployee[]> {
+    async getFiredBetween(startDate: Date, endDate: Date): Promise<SavedFiredEmployee[]> {
         const result = await FiredEmployeeModel.find({
             fireDate: {
                 $gte: startDate,
                 $lte: endDate
             }
         });
-
         return result as SavedFiredEmployee[];
     }
 }

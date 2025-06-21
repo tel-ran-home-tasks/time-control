@@ -1,10 +1,11 @@
 import {AccountingService} from "../services/AccountingService/AccountingService.js";
-import {AccountingServiceMongoImpl} from "../services/AccountingService/AccountingServiceMongoImpl.js";
 import {EmployeeDto} from "../model/Employee.js";
 import {convertEmployeeDtoToEmployee} from "../utils/tools.js";
+import {configuration} from "../app-config/appConfig.js";
+import {LoginData} from "../utils/timeControlTypes.js";
 
 export class AccountController {
-    private service: AccountingService = new AccountingServiceMongoImpl();
+    private service: AccountingService = configuration.accountingService;
 
     async addEmployee(dto: EmployeeDto) {
         const employee = await convertEmployeeDtoToEmployee(dto);
@@ -42,9 +43,15 @@ export class AccountController {
         return await this.service.setRole(id, newRole);
     }
 
-    async getFiredBetween(start: string, end: string) {
-        const startDate = new Date(`${start}T00:00:00.000Z`);
-        const endDate = new Date(`${end}T23:59:59.999Z`);
-        return await this.service.getFiredBetween(startDate.toISOString(), endDate.toISOString());
+    async getFiredBetween(start: Date, end: Date) {
+        const startDate = new Date(start);
+        startDate.setUTCHours(0, 0, 0, 0);
+        const endDate = new Date(end);
+        endDate.setUTCHours(23, 59, 59, 999);
+        return await this.service.getFiredBetween(startDate, endDate);
+    }
+
+    async login(body: LoginData) {
+        return await this.service.login(body)
     }
 }

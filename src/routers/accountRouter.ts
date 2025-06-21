@@ -4,6 +4,7 @@ import asyncHandler from "express-async-handler";
 import {AccountController} from "../controllers/AccountController.js";
 import {validate} from "../middleware/validation.js";
 import {joiSchemas} from "../utils/joiSchemas.js";
+import {AuthRequest, DateRangeQuery, LoginData} from "../utils/timeControlTypes.js";
 
 
 export const accountRouter = express.Router();
@@ -54,8 +55,18 @@ accountRouter.get('/:id', asyncHandler(async (req: Request, res: Response) => {
 
 }));
 
-accountRouter.get('/fired/range', validate('query',joiSchemas), asyncHandler(async (req: Request, res: Response) => {
-    const { start, end } = req.query;
-    const result = await controller.getFiredBetween(start as string, end as string);
-    res.json(result);
-}));
+accountRouter.get('/fired/range', validate('query', joiSchemas), asyncHandler(async (req: Request<{}, {}, {}, DateRangeQuery>, res: Response) => {
+        const { start, end } = req.query;
+        const startDate = new Date(`${start}T00:00:00.000Z`);
+        const endDate = new Date(`${end}T23:59:59.999Z`);
+        const result = await controller.getFiredBetween(startDate, endDate);
+        res.json(result);
+    })
+);
+
+
+accountRouter.post('/login', validate('body', joiSchemas), asyncHandler(async (req:Request<{},{},LoginData>, res:Response) => {
+        const token = await controller.login(req.body);
+        res.json(token);
+    })
+);

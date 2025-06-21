@@ -21,10 +21,17 @@ export const DateRangeSchema = Joi.object({
     end: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).required()
 });
 
+export const LoginSchema = Joi.object({
+    id: Joi.string().length(9).required(),
+    password: Joi.string().min(8).required()
+});
+
+
 export const joiSchemas = {
     'POST/accounts': EmployeeDtoSchema,
     "PUT/accounts/:id": EmployeeDtoSchema,
     "PATCH/accounts/:id/password": PasswordSchema,
     "PATCH/accounts/:id/role": RoleSchema,
     "GET/accounts/fired/range": DateRangeSchema,
+    "POST/accounts/login": LoginSchema,
 }

@@ -1,4 +1,5 @@
 import {Employee, EmployeeDto, SavedFiredEmployee} from "../../model/Employee.js";
+import {LoginData} from "../../utils/timeControlTypes.js";
 
 export interface AccountingService {
     hireEmployee: (employee: Employee) => Promise<Employee>;
@@ -9,5 +10,6 @@ export interface AccountingService {
     getAllEmployees: () => Promise<SavedFiredEmployee[]>;
     setRole:(emplId:string,newRole:string) => Promise<Employee>;
     getFiredEmployees: () => Promise<SavedFiredEmployee[]>;
-    getFiredBetween:(d: string, d2: string)=> Promise<SavedFiredEmployee[]>;
+    getFiredBetween:(d: Date, d2: Date)=> Promise<SavedFiredEmployee[]>;
+    login:(body: LoginData)=> Promise<string>;
 }
