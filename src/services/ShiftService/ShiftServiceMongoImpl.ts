@@ -35,4 +35,28 @@ export class ShiftServiceMongoImpl implements ShiftService {
         await shift.save();
         return convertToShift(shift);
     }
+
+    async getShiftSummary(employeeId: string, start: Date, end: Date) {
+        const shifts = await ShiftModel.find({employeeId, start: {$gte: start.toISOString(), $lte: end.toISOString()}});
+        let totalWorkMs = 0;
+        let totalBreakMs = 0;
+        shifts.forEach(shift => {
+            const start = new Date(shift.start);
+            const end = new Date(shift.end || new Date());
+            totalWorkMs += end.getTime() - start.getTime();
+            shift.breaks.forEach(b => {
+                if (b.startedAt && b.endedAt) {
+                    const bStart = new Date(b.startedAt);
+                    const bEnd = new Date(b.endedAt);
+                    totalBreakMs += bEnd.getTime() - bStart.getTime();
+                }
+            });
+        });
+        return {
+            totalWorkHours: +(totalWorkMs / (1000 * 60 * 60)).toFixed(2),
+            totalBreakMinutes: +(totalBreakMs / (1000 * 60)).toFixed(2),
+            shifts: shifts.map(convertToShift)
+        };
+    }
+
 }

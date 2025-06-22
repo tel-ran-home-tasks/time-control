@@ -433,6 +433,95 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetWorkSummary",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "victort",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234567",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/shifts/summary?start=2025-06-01&end=2025-06-22&employeeId=100000005",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"shifts",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2025-06-01"
+								},
+								{
+									"key": "end",
+									"value": "2025-06-22"
+								},
+								{
+									"key": "employeeId",
+									"value": "100000005"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetWorkSummaryEmpl",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6IltcImNyZXdcIl0iLCJpYXQiOjE3NTA1ODc4MjMsImV4cCI6MTc1MDU4Nzg4Mywic3ViIjoiMTAwMDAwMDA1In0.shOe4f5lhRvKlClizkppQmAGHcZozXSxrPNTcQK4EF8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3050/shifts/summary?start=2025-06-01&end=2025-06-22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"shifts",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2025-06-01"
+								},
+								{
+									"key": "end",
+									"value": "2025-06-22"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

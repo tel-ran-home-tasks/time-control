@@ -5,4 +5,6 @@ export interface ShiftService {
     endShift: (employeeId: string) => Promise<Shift>;
     startBreak: (employeeId: string, type: '15m' | '30m') => Promise<Shift>;
     endBreak:(employeeId: string) =>  Promise<Shift>;
+    getShiftSummary:(employeeId: string, start: Date, end: Date)=>Promise<{ totalWorkHours: number, totalBreakMinutes: number, shifts: Shift[]}>
+
 }

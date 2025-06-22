@@ -29,4 +29,17 @@ export class ShiftController {
         const result = await this.service.endBreak(req.userId!);
         res.json(result);
     };
+
+    getShiftSummary = async (req: AuthRequest, res: Response) => {
+        const { start, end, employeeId } = req.query;
+        if (!start || !end || typeof start !== 'string' || typeof end !== 'string') {
+            res.status(400).json({ message: "Missing or invalid date range" });
+            return;
+        }
+        const targetId = typeof employeeId === 'string' ? employeeId : req.userId!;
+        const result = await this.service.getShiftSummary(targetId, new Date(start), new Date(end));
+        res.json(result);
+    };
+
+
 }

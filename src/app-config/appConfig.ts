@@ -39,6 +39,7 @@ export const configuration: AppConfig = {
         "PATCH/shifts/break/start/:paramm": [Role.CREW],
         "PATCH/shifts/break/start/30m": [Role.CREW],
         "PATCH/shifts/break/end": [Role.CREW],
+        "GET/shifts/summary": [Role.SUP,Role.CREW],
     },
 }
 
