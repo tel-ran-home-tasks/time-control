@@ -1,11 +1,15 @@
 import {Employee, EmployeeDto} from "../model/Employee.js";
 import bcrypt from 'bcrypt';
-import {Role} from "./timeControlTypes.js";
+import {AuthRequest, Role} from "./timeControlTypes.js";
 import {v4 as uuidv4} from 'uuid';
 import {EmployeeModel} from "../model/EmployeeMongo.js";
 import {configuration} from "../app-config/appConfig.js";
 import jwt from "jsonwebtoken";
 import {Shift} from "../model/Shift.js";
+import { Response } from "express";
+import { Parser } from "json2csv";
+import {ShiftModel} from "../model/ShiftMongo.js";
+
 
 export const getError = (status: number, message: string) =>
     JSON.stringify({status, message});
@@ -47,12 +51,14 @@ export const getJWT = (userId: string, roles: Role[]) => {
     return jwt.sign(payload, secret, options);
 }
 
-export const normalizePath = (method: string, path: string): string => {
-    return method.toUpperCase() + path
-        .replace(/\/+$/, '') // убираем / в конце
-        .replace(/\/\d+|\/[a-f0-9-]{24}/gi, '/:param'); // заменяем id
-};
 
+export const normalizePath = (method: string, path: string, baseUrl = ''): string => {
+    const fullPath = (baseUrl + path)
+        .replace(/\/+$/, '')
+        .replace(/\/\d+|\/[a-f0-9-]{24}/gi, '/:param');
+
+    return method.toUpperCase() + fullPath;
+};
 
 export const convertToShift = (doc: any): Shift => ({
     employeeId: doc.employeeId,
@@ -64,3 +70,4 @@ export const convertToShift = (doc: any): Shift => ({
         end: b.end ?? undefined
     }))
 });
+

@@ -11,3 +11,4 @@ shiftRouter.patch('/end', controller.endShift);
 shiftRouter.patch('/break/start/:type', controller.startBreak);
 shiftRouter.patch('/break/end', controller.endBreak);
 shiftRouter.get('/summary',controller.getShiftSummary);
+shiftRouter.get('/export/csv',controller.exportShiftsToCsv)

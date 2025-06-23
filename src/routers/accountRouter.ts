@@ -37,13 +37,13 @@ accountRouter.put('/:id', validate('body',joiSchemas), asyncHandler(async (req: 
     res.json(result);
 }));
 
-accountRouter.patch('/:id/password', asyncHandler(async (req: Request, res: Response) => {
+accountRouter.patch('/:id/password',validate('body',joiSchemas), asyncHandler(async (req: Request, res: Response) => {
     const {newPassword} = req.body;
     await controller.changePassword(req.params.id, newPassword);
     res.sendStatus(204);
 }));
 
-accountRouter.patch('/:id/role', asyncHandler(async (req: Request, res: Response) => {
+accountRouter.patch('/:id/role',validate('body',joiSchemas) ,asyncHandler(async (req: Request, res: Response) => {
     const {newRole} = req.body;
     const result = await controller.setRole(req.params.id, newRole);
     res.json(result);

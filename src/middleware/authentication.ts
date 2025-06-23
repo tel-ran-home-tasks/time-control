@@ -56,6 +56,7 @@ export const authenticate = (service: AccountingService): RequestHandler => {
 
 export const skipRoutes = (skipRoutes: string[]): RequestHandler => {
     return (req: AuthRequest, res: Response, next: NextFunction) => {
+        if (req.path.startsWith('/docs')) return next();
         const pathMethod = req.method + req.path.replace(/\/+$/, "");
         if (!skipRoutes.includes(pathMethod) && !req.userId) {
             throw new Error(JSON.stringify({status: 401, message: "Go and login!"}));

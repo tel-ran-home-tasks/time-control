@@ -24,7 +24,7 @@ export class AccountingServiceMongoImpl implements AccountingService {
 
     async changePassword(empId: string, newPassword: string): Promise<void> {
         const hashed = await bcrypt.hash(newPassword, 10);
-        const result = await EmployeeModel.updateOne({id: empId}, {$set: {password: hashed}});
+        const result = await EmployeeModel.updateOne({id: empId}, {$set: {hash: hashed}});
         if (result.matchedCount === 0) {
             throw new Error(getError(404, `Employee with id ${empId} not found`));
         }

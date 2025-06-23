@@ -29,9 +29,9 @@ export const LoginSchema = Joi.object({
 
 export const joiSchemas = {
     'POST/accounts': EmployeeDtoSchema,
-    "PUT/accounts/:id": EmployeeDtoSchema,
-    "PATCH/accounts/:id/password": PasswordSchema,
-    "PATCH/accounts/:id/role": RoleSchema,
+    "PUT/accounts/:param": EmployeeDtoSchema,
+    "PATCH/accounts/:param/password": PasswordSchema,
+    "PATCH/accounts/:param/role": RoleSchema,
     "GET/accounts/fired/range": DateRangeSchema,
     "POST/accounts/login": LoginSchema,
 }

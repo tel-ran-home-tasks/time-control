@@ -1,0 +1,301 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Time Control System for your enterprise",
+    "version": "1.0.0",
+    "description": "API for control, save and manage working time of employees"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3050",
+      "description": "Development local server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Employee": {
+        "type": "object",
+        "required": ["firstName", "lastName", "id", "password"],
+        "properties": {
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "id": { "type": "string", "example": "100000001" },
+          "password": { "type": "string" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["id", "password"],
+        "properties": {
+          "id": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+      "ChangePassword": {
+        "type": "object",
+        "required": ["newPassword"],
+        "properties": {
+          "newPassword": { "type": "string" }
+        }
+      },
+      "ChangeRole": {
+        "type": "object",
+        "required": ["newRole"],
+        "properties": {
+          "newRole": { "type": "string", "enum": ["HR", "SUP", "MNG", "CREW"] }
+        }
+      },
+      "DateRange": {
+        "type": "object",
+        "required": ["start", "end"],
+        "properties": {
+          "start": { "type": "string", "format": "date" },
+          "end": { "type": "string", "format": "date" }
+        }
+      },
+      "ShiftSummary": {
+        "type": "object",
+        "properties": {
+          "totalHours": { "type": "number" },
+          "breakTime": { "type": "number" },
+          "shifts": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/accounts": {
+      "post": {
+        "summary": "Add employee",
+        "tags": ["Accounts"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Employee" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": { "description": "Employee created" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" },
+          "500": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      },
+      "get": {
+        "summary": "Get all employees",
+        "tags": ["Accounts"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Employee" }
+                }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/accounts/login": {
+      "post": {
+        "summary": "Login and get JWT token",
+        "tags": ["Accounts"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "JWT token" },
+          "401": { "$ref": "#/components/schemas/ErrorResponse" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/accounts/fired/range": {
+      "get": {
+        "summary": "Get fired employees between date range",
+        "tags": ["Accounts"],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Fired employees list" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/accounts/{id}/password": {
+      "patch": {
+        "summary": "Change employee password",
+        "tags": ["Accounts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChangePassword" }
+            }
+          }
+        },
+        "responses": {
+          "204": { "description": "Password changed" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/accounts/{id}/role": {
+      "patch": {
+        "summary": "Change employee role",
+        "tags": ["Accounts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChangeRole" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Role changed" },
+          "403": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/shifts/start": {
+      "post": {
+        "summary": "Start a shift",
+        "tags": ["Shift"],
+        "responses": {
+          "200": { "description": "Shift started" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/shifts/end": {
+      "patch": {
+        "summary": "End a shift",
+        "tags": ["Shift"],
+        "responses": {
+          "200": { "description": "Shift ended" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/shifts/break/start/{type}": {
+      "patch": {
+        "summary": "Start a break",
+        "tags": ["Shift"],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["15m", "30m"]
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Break started" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/shifts/break/end": {
+      "patch": {
+        "summary": "End current break",
+        "tags": ["Shift"],
+        "responses": {
+          "200": { "description": "Break ended" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/shifts/summary": {
+      "get": {
+        "summary": "Get shift summary for a period",
+        "tags": ["Shift"],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary with worked hours and breaks",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ShiftSummary" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" },
+          "403": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    }
+  }
+}

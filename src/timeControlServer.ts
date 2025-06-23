@@ -8,6 +8,8 @@ import morgan from "morgan";
 import fs from 'fs';
 import {shiftRouter} from "./routers/shiftRouter.js";
 import {authorize} from "./middleware/authorize.js";
+import swaggerUi from 'swagger-ui-express';
+import * as SwaggerDoc from '../docs/openapi.json' with {type:'json'}
 
 
 export const launchServer = () => {
@@ -23,10 +25,15 @@ export const launchServer = () => {
     //=============Middleware=============================
     app.use(morgan('dev'));
     app.use(morgan('combined', {stream: logStream}));
+
+
+    //================Security==================
     app.use(express.json());
     app.use(authenticate(configuration.accountingService));
     app.use(skipRoutes(configuration.skipPaths));
     app.use(authorize(configuration.pathsRoles, configuration.skipPaths))
+    //=====================Swagger Docs===================
+    app.use('/docs',swaggerUi.serve,swaggerUi.setup(SwaggerDoc))
     //===============Routing==============================
     app.use('/accounts', accountRouter)
     app.use('/shifts', shiftRouter)
